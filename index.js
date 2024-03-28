@@ -31,28 +31,44 @@ res.send('get your user data here')
 
 })
 
-//post
-// app.post('/api/personal-details', async (req, res) => {
-//     try {
-//       const { name, phone_no, email } = req.body;
-  
-//       // Create a new instance of the PersonalDetail model
-//       const newPersonalDetail = new PersonalDetail({
-//         name,
-//         phone_no,
-//         email,
-//       });
-  
-//       // Save the new personal detail to the database
-//       await newPersonalDetail.save();
-  
-//       res.status(201).json({ message: 'Personal details saved successfully' });
-//     } catch (error) {
-//       console.error('Error saving personal details:', error);
-//       res.status(500).json({ message: 'Internal Server Error' });
-//     }
-//   });
 
+
+
+
+const body = {
+    school_id: "12345",
+        name: "Pradeep",
+        fathers_name: "Moreshwar",
+        contact_no: "7489495506",
+        student_id: "12345",
+        password: "abc@123"
+
+}
+
+app.post('/api/students', async (req, res) => {
+    try {
+      // Extract data from the request body
+    //   const { school_id, name, fathers_name, dob, contact_no, student_id, password } = req.body;
+    const { school_id, name, fathers_name, contact_no, student_id, password } = body;
+      // Create a new student document
+      const newStudent = new StudentInfo({
+        school_id,
+        name,
+        fathers_name,
+        contact_no,
+        student_id,
+        password
+      });
+  
+      // Save the new student document to the database
+      await newStudent.save();
+  
+      res.status(201).json({ message: 'Student added successfully', student: newStudent });
+    } catch (error) {
+      console.error('Error adding student:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
 
 
 
