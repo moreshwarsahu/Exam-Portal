@@ -9,7 +9,11 @@ require('./db_connections/conn.js')
 
 
 //schema;
-const personal_detail = require("./schema/personal_detail.js")
+// const personal_detail = require("./schema/personal_detail.js")
+const admin_info = require("./schema/admin_info.js")
+const question_bank = require("./schema/question_bank.js")
+const school_details = require("./schema/school_details.js")
+const student_info = require("./schema/student_info.js")
 
 //middlwares
 app.use(express.json());
