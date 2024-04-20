@@ -1,9 +1,10 @@
 const express = require("express")
 const app = express()
 
-const PORT = process.env.PORT
-
 require('dotenv').config();
+
+const PORT = process.env.PORT;
+
 
 require('./db_connections/conn.js')
 
@@ -35,26 +36,28 @@ res.send('get your user data here')
 
 
 
-const body = {
-    school_id: "12345",
-        name: "Pradeep",
-        fathers_name: "Moreshwar",
-        contact_no: "7489495506",
-        student_id: "12345",
-        password: "abc@123"
+// const body = {
+//     school_id: "12345",
+//         name: "Pradeep",
+//         fathers_name: "Moreshwar",
+//         contact_no: "7489495506",
+//         dob:21-2-2023,
+//         student_id: "12345",
+//         password: "abc@123"
 
-}
+// }
 
 app.post('/api/students', async (req, res) => {
     try {
       // Extract data from the request body
-    //   const { school_id, name, fathers_name, dob, contact_no, student_id, password } = req.body;
-    const { school_id, name, fathers_name, contact_no, student_id, password } = body;
+      const { school_id, name, fathers_name, dob, contact_no, student_id, password } = req.body;
+    // const { school_id, name, fathers_name, contact_no, student_id, password } = body;
       // Create a new student document
-      const newStudent = new StudentInfo({
+      const newStudent = new student_info({
         school_id,
         name,
         fathers_name,
+        dob,
         contact_no,
         student_id,
         password
@@ -73,6 +76,35 @@ app.post('/api/students', async (req, res) => {
 
 
 
+  app.post('/api/schools', async (req, res) => {
+    try {
+      const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
+  
+      // Create a new school document
+      const newSchool = new SchoolDetail({
+        school_id,
+        name,
+        address,
+        spoc_name,
+        spoc_id,
+        spoc_password,
+        spoc_contact,
+        email
+      });
+  
+      // Save the new school document to the database
+      await newSchool.save();
+  
+      res.status(201).json({ message: 'School details added successfully', school: newSchool });
+    } catch (error) {
+      console.error('Error adding school details:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+
+
+
+
 app.listen(PORT, ()=>{
-    console.log('port is running')
+    console.log('port is running'+PORT)
 })
