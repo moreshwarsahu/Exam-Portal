@@ -47,7 +47,7 @@ res.send('get your user data here')
 
 // }
 
-app.post('/api/students', async (req, res) => {
+app.post('/post/students_info', async (req, res) => {
     try {
       // Extract data from the request body
       const { school_id, name, fathers_name, dob, contact_no, student_id, password } = req.body;
@@ -76,7 +76,7 @@ app.post('/api/students', async (req, res) => {
 
 
 
-  app.post('/api/schools', async (req, res) => {
+  app.post('/post/schools_details', async (req, res) => {
     try {
       const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
   
