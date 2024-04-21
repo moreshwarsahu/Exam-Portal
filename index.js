@@ -89,10 +89,10 @@ app.post('/post/students_info', async (req, res) => {
         spoc_id,
         spoc_password,
         spoc_contact,
+        // email : req.body.email || email
         email
       });
-  
-      // Save the new school document to the database
+
       await newSchool.save();
   
       res.status(201).json({ message: 'School details added successfully', school: newSchool });
