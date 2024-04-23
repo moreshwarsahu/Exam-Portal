@@ -76,12 +76,12 @@ app.post('/post/students_info', async (req, res) => {
 
 
 
-  app.post('/post/schools_details', async (req, res) => {
+  app.post('/post/school_details', async (req, res) => {
     try {
       const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
   
       // Create a new school document
-      const newSchool = new SchoolDetail({
+      const newSchool = new school_details({
         school_id,
         name,
         address,
