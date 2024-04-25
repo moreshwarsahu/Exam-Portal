@@ -16,12 +16,12 @@ const questionBankSchema = new mongoose.Schema({
   options: {
     type: [String],
     required: true,
-    validate: {
-      validator: function(options) {
-        return options.length === 4; 
-      },
-      message: 'Options array must contain exactly 4 elements'
-    }
+    // validate: {
+    //   validator: function(options) {
+    //     return options.length === 4; 
+    //   },
+    //   message: 'Options array must contain exactly 4 elements'
+    // }
   },
   topic: {
     type: String,
