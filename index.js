@@ -121,7 +121,7 @@ app.post('/post/students_info', async (req, res) => {
      
       await newQuestion.save();
   
-      res.status(201).json({ message: 'Question added successfully', data: newQuestion });
+      res.status(200).json({ message: 'Question added successfully', data: newQuestion });
     } catch (error) {
       console.error('Error adding question:', error);
       res.status(500).json({ message: 'Internal Server Error' });
