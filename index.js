@@ -104,6 +104,32 @@ app.post('/post/students_info', async (req, res) => {
 
 
 
+  app.post('/post/question_bank', async (req, res) => {
+    try {
+      const { subject, question, answer, options, topic, difficulty_level } = req.body;
+  
+      
+      const newQuestion = new question_bank({
+        subject,
+        question,
+        answer,
+        options,
+        topic,
+        difficulty_level
+      });
+  
+     
+      await newQuestion.save();
+  
+      res.status(201).json({ message: 'Question added successfully', question: newQuestion });
+    } catch (error) {
+      console.error('Error adding question:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
+
+
 
 app.listen(PORT, ()=>{
     console.log('port is running'+PORT)
