@@ -128,6 +128,16 @@ app.post('/post/students_info', async (req, res) => {
     }
   });
   
+  app.get('/get/question_bank', async (req, res) => {
+    try {
+      
+      const questions = await question_bank.find();
+      res.status(200).json({status: 'success', status_code: 200, message:'questions fetched successfully', data: questions});
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+      res.status(500).json({ststus:'failure', status_code: 500, message: 'Internal Server Error' });
+    }
+  });
 
 
 
