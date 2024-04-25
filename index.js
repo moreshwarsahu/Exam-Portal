@@ -95,7 +95,7 @@ app.post('/post/students_info', async (req, res) => {
 
       await newSchool.save();
   
-      res.status(201).json({ message: 'School details added successfully', school: newSchool });
+      res.status(201).json({ message: 'School details added successfully', data: newSchool });
     } catch (error) {
       console.error('Error adding school details:', error);
       res.status(500).json({ message: 'Internal Server Error' });
@@ -121,7 +121,7 @@ app.post('/post/students_info', async (req, res) => {
      
       await newQuestion.save();
   
-      res.status(201).json({ message: 'Question added successfully', question: newQuestion });
+      res.status(201).json({ message: 'Question added successfully', data: newQuestion });
     } catch (error) {
       console.error('Error adding question:', error);
       res.status(500).json({ message: 'Internal Server Error' });
