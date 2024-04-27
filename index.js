@@ -1,5 +1,6 @@
 const express = require("express")
 const app = express()
+const bcrypt = require('bcrypt');
 
 require('dotenv').config();
 
@@ -59,21 +60,52 @@ app.post('/post/students_info', async (req, res) => {
 
 
 
+  // app.post('/post/school_details', async (req, res) => {
+  //   try {
+  //     const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
+ 
+  //     const newSchool = new school_details({
+  //       school_id,
+  //       name,
+  //       address,
+  //       spoc_name,
+  //       spoc_id,
+  //       spoc_password,
+  //       spoc_contact,
+  //       email
+  //     });
+
+  //     await newSchool.save();
+  
+  //     res.status(201).json({ message: 'School details added successfully', data: newSchool });
+  //   } catch (error) {
+  //     console.error('Error adding school details:', error);
+  //     res.status(500).json({ message: 'Internal Server Error' });
+  //   }
+  // });
+
+
+//**********************shhool details post********************************//
+
+
   app.post('/post/school_details', async (req, res) => {
     try {
       const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
- 
+  
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(spoc_password, 10);
+  
       const newSchool = new school_details({
         school_id,
         name,
         address,
         spoc_name,
         spoc_id,
-        spoc_password,
+        spoc_password: hashedPassword, // Store the hashed password
         spoc_contact,
         email
       });
-
+  
       await newSchool.save();
   
       res.status(201).json({ message: 'School details added successfully', data: newSchool });
@@ -83,6 +115,34 @@ app.post('/post/students_info', async (req, res) => {
     }
   });
 
+  //******************************************spoc login**************************// 
+
+  
+  app.post('/login', async (req, res) => {
+    try {
+      const { spoc_id, spoc_password } = req.body;
+  
+      
+      const user = await school_details.findOne({ spoc_id });
+  
+      if (!user) {
+      
+        return res.status(401).json({ message: 'Invalid spoc_id or password' });
+      }
+
+      const passwordMatch = await bcrypt.compare(spoc_password, user.spoc_password);
+      if (!passwordMatch) {
+       
+        return res.status(401).json({ message: 'Invalid spoc_id or password' });
+      }
+  
+      res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+      console.error('Error during login:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
 
 
   app.post('/post/question_bank', async (req, res) => {
