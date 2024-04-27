@@ -168,10 +168,10 @@ app.post('/post/student_info', async (req, res) => {
      
       await newQuestion.save();
   
-      res.status(200).json({ message: 'Question added successfully', data: newQuestion });
+      res.status(200).json({ status:'success', status_code:200, message: 'Question added successfully', data: newQuestion });
     } catch (error) {
       console.error('Error adding question:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).json({ status:'failure', status_code:500, message: 'Internal Server Error' });
     }
   });
   
@@ -182,7 +182,7 @@ app.post('/post/student_info', async (req, res) => {
       res.status(200).json({status: 'success', status_code: 200, message:'questions fetched successfully', data: questions});
     } catch (error) {
       console.error('Error fetching questions:', error);
-      res.status(500).json({ststus:'failure', status_code: 500, message: 'Internal Server Error' });
+      res.status(500).json({status:'failure', status_code: 500, message: 'Internal Server Error' });
     }
   });
 
