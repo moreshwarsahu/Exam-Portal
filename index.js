@@ -33,11 +33,14 @@ res.send('get your user data here')
 
 })
 
-
+//****************************student details****************************// 
 
 app.post('/post/students_info', async (req, res) => {
     try {
       const { school_id, student_name, fathers_name, dob, contact_no, student_id, password } = req.body;
+
+      const hashedPassword = await bcrypt.hash(spoc_password, 10);
+
       const newStudent = new student_info({
         school_id,
         student_name,
@@ -45,7 +48,7 @@ app.post('/post/students_info', async (req, res) => {
         dob,
         contact_no,
         student_id,
-        password
+        password: hashedPassword
       });
 
       await newStudent.save();
@@ -57,32 +60,35 @@ app.post('/post/students_info', async (req, res) => {
     }
   });
 
+  //************************************student login *************************//
 
-
-
-  // app.post('/post/school_details', async (req, res) => {
-  //   try {
-  //     const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
- 
-  //     const newSchool = new school_details({
-  //       school_id,
-  //       name,
-  //       address,
-  //       spoc_name,
-  //       spoc_id,
-  //       spoc_password,
-  //       spoc_contact,
-  //       email
-  //     });
-
-  //     await newSchool.save();
+  app.post('/login/student', async (req, res) => {
+    try {
+      const { student_id, password } = req.body;
   
-  //     res.status(201).json({ message: 'School details added successfully', data: newSchool });
-  //   } catch (error) {
-  //     console.error('Error adding school details:', error);
-  //     res.status(500).json({ message: 'Internal Server Error' });
-  //   }
-  // });
+      // Find the student by student_id
+      const student = await student_info.findOne({ student_id });
+  
+      if (!student) {
+       
+        return res.status(401).json({ message: 'Invalid student_id or password' });
+      }
+  
+      // Compare passwords
+      const passwordMatch = await bcrypt.compare(password, student.password);
+      if (!passwordMatch) {
+        // If passwords don't match
+        return res.status(401).json({ message: 'Invalid student_id or password' });
+      }
+  
+      // If login successful
+      res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+      console.error('Error during student login:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
 
 
 //**********************shhool details post********************************//
@@ -117,8 +123,8 @@ app.post('/post/students_info', async (req, res) => {
 
   //******************************************spoc login**************************// 
 
-  
-  app.post('/login', async (req, res) => {
+
+  app.post('/spoc_login', async (req, res) => {
     try {
       const { spoc_id, spoc_password } = req.body;
   
