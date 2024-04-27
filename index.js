@@ -35,11 +35,11 @@ res.send('get your user data here')
 
 //****************************student details****************************// 
 
-app.post('/post/students_info', async (req, res) => {
+app.post('/post/student_info', async (req, res) => {
     try {
       const { school_id, student_name, fathers_name, dob, contact_no, student_id, password } = req.body;
 
-      const hashedPassword = await bcrypt.hash(spoc_password, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       const newStudent = new student_info({
         school_id,
