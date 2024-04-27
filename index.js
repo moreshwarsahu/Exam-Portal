@@ -34,36 +34,19 @@ res.send('get your user data here')
 
 
 
-
-
-// const body = {
-//     school_id: "12345",
-//         name: "Pradeep",
-//         fathers_name: "Moreshwar",
-//         contact_no: "7489495506",
-//         dob:21-2-2023,
-//         student_id: "12345",
-//         password: "abc@123"
-
-// }
-
 app.post('/post/students_info', async (req, res) => {
     try {
-      // Extract data from the request body
-      const { school_id, name, fathers_name, dob, contact_no, student_id, password } = req.body;
-    // const { school_id, name, fathers_name, contact_no, student_id, password } = body;
-      // Create a new student document
+      const { school_id, student_name, fathers_name, dob, contact_no, student_id, password } = req.body;
       const newStudent = new student_info({
         school_id,
-        name,
+        student_name,
         fathers_name,
         dob,
         contact_no,
         student_id,
         password
       });
-  
-      // Save the new student document to the database
+
       await newStudent.save();
   
       res.status(201).json({ message: 'Student added successfully', student: newStudent });
@@ -79,8 +62,7 @@ app.post('/post/students_info', async (req, res) => {
   app.post('/post/school_details', async (req, res) => {
     try {
       const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
-  
-      // Create a new school document
+ 
       const newSchool = new school_details({
         school_id,
         name,
@@ -89,7 +71,6 @@ app.post('/post/students_info', async (req, res) => {
         spoc_id,
         spoc_password,
         spoc_contact,
-        // email : req.body.email || email
         email
       });
 
