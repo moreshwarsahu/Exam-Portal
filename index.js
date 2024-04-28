@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const bcrypt = require('bcrypt');
+var cors = require('cors')
 
 require('dotenv').config();
 
@@ -18,8 +19,10 @@ const school_details = require("./schema/school_details.js")
 const student_info = require("./schema/student_info.js")
 
 //middlwares
-app.use(express.json());
+app.use(cors())
 
+
+app.use(express.json());
 
 
 //routing
@@ -176,25 +179,6 @@ app.post('/post/student_info', async (req, res) => {
   });
 
 
-
-  // app.get('/search_question/topic/:topic', async (req, res) => {
-  //   try {
-  //     const { topic } = req.params;
-  
-  //     const regexPattern = new RegExp(topic, 'i'); 
-  
-  //     const query = { topic: regexPattern };
-  
-  //     const questions = await question_bank.find(query);
-  
-  //     res.status(200).json({ status: 'success', status_code: 200, message: 'Search by topic successful', data: questions });
-  //   } catch (error) {
-  //     console.error('Error during topic search:', error);
-  //     res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
-  //   }
-  // });
-
-
   app.get('/search/question_bank', async (req, res) => {
     try {
       const { query: searchString } = req.query;
@@ -219,32 +203,7 @@ app.post('/post/student_info', async (req, res) => {
     }
   });
 
-  // app.get('/search/question', async (req, res) => {
-  //   const { subject, topic } = req.query;
-  //   const result =[];
-  //   const query = {};
-  
-  //   if (subject) {
-  //     query.subject = { $regex: subject, $options: 'i' };
-  //     const questions = await question_bank.find(query);
-  //     result.push(...questions)
-  //   }
-  
-  //   if (topic) {
-  //     query.topic = { $regex: topic, $options: 'i' };
-  //     const questions = await question_bank.find(query);
-  //     result.push(...questions)
-  //   }
 
-  //   try {
-     
-  //     res.status(200).json({ status: 'success', status_code: 200, message: 'Questions fetched successfully', data: result });
-  //   } catch (err) {
-  //     console.error('Error during question search:', err);
-  //     res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
-  //   }
-  // });
-  
   app.get('/get/question_bank', async (req, res) => {
     try {
       
@@ -256,7 +215,7 @@ app.post('/post/student_info', async (req, res) => {
     }
   });
 
-
+//****************************************************************************************//
 
 app.listen(PORT, ()=>{
     console.log('port is running'+PORT)
