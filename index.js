@@ -150,7 +150,7 @@ app.post('/post/student_info', async (req, res) => {
   });
   
 
-
+//**********************Question Bank**************************//
   app.post('/post/question_bank', async (req, res) => {
     try {
       const { subject, question, answer, options, topic, difficulty_level } = req.body;
@@ -174,6 +174,37 @@ app.post('/post/student_info', async (req, res) => {
       res.status(500).json({ status:'failure', status_code:500, message: 'Internal Server Error' });
     }
   });
+
+
+
+  app.get('/search_question', async (req, res) => {
+    try {
+      let { subject, topic } = req.query;
+  
+      if (subject) {
+        subject = new RegExp(subject, 'i');
+      }
+      if (topic) {
+        topic = new RegExp(topic, 'i');
+      }
+  
+      const query = {};
+      if (subject) {
+        query.subject = subject;
+      }
+      if (topic) {
+        query.topic = topic;
+      }
+      const questions = await question_bank.find(query);
+  
+      res.status(200).json({ status: 'success', status_code: 200, message: 'Search successful', data: questions });
+    } catch (error) {
+      console.error('Error during question search:', error);
+      res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
+    }
+  });
+
+  
   
   app.get('/get/question_bank', async (req, res) => {
     try {
