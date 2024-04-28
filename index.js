@@ -177,23 +177,19 @@ app.post('/post/student_info', async (req, res) => {
 
 
 
-  app.get('/search_question', async (req, res) => {
+  app.get('/search_question/topic/:topic', async (req, res) => {
     try {
-      const { query: searchString } = req.query;
+      const { topic } = req.params;
   
-      const regexPattern = new RegExp(searchString, 'i');
-      const query = {
-        $or: [
-          { subject: regexPattern },
-          { topic: regexPattern }
-        ]
-      };
+      const regexPattern = new RegExp(topic, 'i'); 
+  
+      const query = { topic: regexPattern };
   
       const questions = await question_bank.find(query);
   
-      res.status(200).json({ status: 'success', status_code: 200, message: 'Search successful', data: questions });
+      res.status(200).json({ status: 'success', status_code: 200, message: 'Search by topic successful', data: questions });
     } catch (error) {
-      console.error('Error during question search:', error);
+      console.error('Error during topic search:', error);
       res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
     }
   });
