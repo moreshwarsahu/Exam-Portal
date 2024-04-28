@@ -177,46 +177,17 @@ app.post('/post/student_info', async (req, res) => {
 
 
 
-  // app.get('/search_question', async (req, res) => {
-  //   try {
-  //     let { subject, topic } = req.query;
-  
-  //     if (subject) {
-  //       subject = new RegExp(subject, 'i');
-  //     }
-  //     if (topic) {
-  //       topic = new RegExp(topic, 'i');
-  //     }
-  
-  //     const query = {};
-  //     if (subject) {
-  //       query.subject = subject;
-  //     }
-  //     if (topic) {
-  //       query.topic = topic;
-  //     }
-  //     const questions = await question_bank.find(query);
-  
-  //     res.status(200).json({ status: 'success', status_code: 200, message: 'Search successful', data: questions });
-  //   } catch (error) {
-  //     console.error('Error during question search:', error);
-  //     res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
-  //   }
-  // });
-
-
-  app.get('/search/question_bank', async (req, res) => {
+  app.get('/search_question', async (req, res) => {
     try {
-      const { subject, topic } = req.query;
+      const { query: searchString } = req.query;
   
-
-      const query = {};
-      if (subject) {
-        query.subject = subject;
-      }
-      if (topic) {
-        query.topic = topic;
-      }
+      const regexPattern = new RegExp(searchString, 'i');
+      const query = {
+        $or: [
+          { subject: regexPattern },
+          { topic: regexPattern }
+        ]
+      };
   
       const questions = await question_bank.find(query);
   
@@ -227,7 +198,6 @@ app.post('/post/student_info', async (req, res) => {
     }
   });
   
-
   
   app.get('/get/question_bank', async (req, res) => {
     try {
