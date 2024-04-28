@@ -97,32 +97,31 @@ app.post('/post/student_info', async (req, res) => {
 //**********************shhool details post********************************//
 
 
-  app.post('/post/school_details', async (req, res) => {
-    try {
-      const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
-  
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(spoc_password, 10);
-  
-      const newSchool = new school_details({
-        school_id,
-        name,
-        address,
-        spoc_name,
-        spoc_id,
-        spoc_password: hashedPassword, // Store the hashed password
-        spoc_contact,
-        email
-      });
-  
-      await newSchool.save();
-  
-      res.status(201).json({ message: 'School details added successfully', data: newSchool });
-    } catch (error) {
-      console.error('Error adding school details:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  });
+app.post('/post/school_details', async (req, res) => {
+  try {
+    const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
+
+    const hashedPassword = await bcrypt.hash(spoc_password, 10); 
+
+    const newSchool = new school_details({
+      school_id,
+      name,
+      address,
+      spoc_name,
+      spoc_id,
+      spoc_password: hashedPassword, 
+      spoc_contact,
+      email
+    });
+
+    await newSchool.save();
+
+    res.status(201).json({ message: 'School details added successfully', data: newSchool });
+  } catch (error) {
+    console.error('Error adding school details:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
   //******************************************spoc login**************************// 
 
