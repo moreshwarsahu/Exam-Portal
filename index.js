@@ -17,7 +17,8 @@ const admin_info = require("./schema/admin_info.js")
 const question_bank = require("./schema/question_bank.js")
 const school_details = require("./schema/school_details.js")
 const student_info = require("./schema/student_info.js")
-const question_paper=require("./schema/question_paper.js")
+const question_paper=require("./schema/question_paper.js");
+const main = require("./db_connections/mailer.js");
 
 //middlwares
 app.use(cors())
@@ -30,6 +31,18 @@ app.use(express.json());
 
 app.get('/',(req,res)=>{
     res.send ("port is running")
+})
+
+app.post('/api/mail/testing', (req, res)=>{
+    try {
+        const {email} = req.body;
+        main(email)
+        res.status(201).json({ message: 'mail sent successfully'});
+
+    }catch (error) {
+        console.error('Error sending mail:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
 })
 
 app.get('/users',(req,res)=>{
@@ -112,7 +125,6 @@ app.post('/post/school_details', async (req, res) => {
     });
 
     await newSchool.save();
-
     res.status(201).json({ message: 'School details added successfully', data: newSchool });
   } catch (error) {
     console.error('Error adding school details:', error);
@@ -279,7 +291,7 @@ app.get('/fetch_questions/:school_id', async (req, res) => {
      res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
   }
  });
-
+//*************************************************************************************************************// 
 app.listen(PORT, ()=>{
     console.log('port is running'+PORT)
 })
