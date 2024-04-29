@@ -141,6 +141,30 @@ app.post('/post/school_details', async (req, res) => {
   }
 });
 
+app.get('/search/school_details', async (req, res) => {
+  try {
+    const { query: searchString } = req.query;
+
+    const regexPattern = new RegExp(searchString, 'i'); 
+
+
+    const query = {
+      $or: [
+        { school_id: regexPattern },
+        { name: regexPattern }
+      ]
+    };
+
+    
+    const details = await school_details.find(query);
+
+    res.status(200).json({ status: 'success', status_code: 200, message: 'Search successful', data: details });
+  } catch (error) {
+    console.error('Error during question search:', error);
+    res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
+  }
+});
+
   //******************************************spoc login**************************// 
 
 
