@@ -83,7 +83,7 @@ app.post('/post/student_info', async (req, res) => {
 
   app.post('/login/student', async (req, res) => {
     try {
-      const { school_id, class: class_ , student_id, password } = req.body;
+      const { student_id, password } = req.body;
 
       const student = await student_info.findOne({ student_id });
   
@@ -97,7 +97,13 @@ app.post('/post/student_info', async (req, res) => {
         return res.status(401).json({ message: 'Invalid ID or Password' });
       }
   
-      res.status(200).json({ school_id, student_id, class: class_ , message: 'Login successful' });
+      // res.status(200).json({ school_id, student_id, class: class_ , message: 'Login successful' });
+      res.status(200).json({
+        school_id: student.school_id, 
+        student_id: student.student_id, 
+        class: student.class, 
+        message: 'Login successful'
+    });
     } catch (error) {
       console.error('Error during student login:', error);
       res.status(500).json({ message: 'Internal Server Error' });
