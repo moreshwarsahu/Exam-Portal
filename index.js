@@ -124,8 +124,9 @@ app.post('/post/school_details', async (req, res) => {
       spoc_contact,
       email
     });
-    mailer(email, spoc_id, spoc_password);
+    
     await newSchool.save();
+    mailer(email, spoc_id, spoc_password);
     res.status(201).json({ message: 'School details added successfully', data: newSchool });
   } catch (error) {
     console.error('Error adding school details:', error);
