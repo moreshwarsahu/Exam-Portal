@@ -29,8 +29,8 @@ async function makeMessage(recieversList, spoc_id, spoc_password) {
 			//     or
 			html: `<b>This mail is sent by team upStairs </b>
 			<p>You Have been enrolled as SPoC in our portal. Your Login ID and Password are:</p>
-			<p>SPoC ID/ Login ID: ${spoc_id}</p>
-            <p>Password: ${spoc_password} </p>
+			<p>SPoC ID/ Login ID: <b> ${spoc_id}</b></p>
+            <p>Password:<b> ${spoc_password} </b> </p>
             <p>Do not share your login ID or Password with Anyone.</p>
 			<h3>Thank you</h3>
 			`, // html body
