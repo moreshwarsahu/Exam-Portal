@@ -86,7 +86,7 @@ app.post('/post/student_info', async (req, res) => {
       }
   
       // If login successful
-      res.status(200).json({ message: 'Login successful' });
+      res.status(200).json({ student_id, message: 'Login successful' });
     } catch (error) {
       console.error('Error during student login:', error);
       res.status(500).json({ message: 'Internal Server Error' });
@@ -145,7 +145,7 @@ app.post('/post/school_details', async (req, res) => {
         return res.status(401).json({ message: 'Invalid spoc_id or password' });
       }
   
-      res.status(200).json({ message: 'Login successful' });
+      res.status(200).json({ spoc_id, message: 'Login successful' });
     } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({ message: 'Internal Server Error' });
