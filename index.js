@@ -249,9 +249,9 @@ app.post('/post/school_details', async (req, res) => {
     }
 });
 
-  app.delete('/delete_question/:id', async (req, res) => {
+  app.delete('/delete_question', async (req, res) => {
     try {
-       const { id } = req.params;
+       const { id } = req.query;
    
        const result = await question_bank.findByIdAndDelete(id);
    
@@ -270,10 +270,9 @@ app.post('/post/school_details', async (req, res) => {
 
 app.post('/question-papers', async (req, res) => {
   try {
-    // Extract data from the request body
+    
     const { question_id, school_id, test_name, duration, total_marks, class: class_ } = req.body;
 
-    // Create a new instance of the QuestionPaper model
     const newQuestionPaper = new question_paper({
       question_id,
       school_id,
@@ -295,10 +294,10 @@ app.post('/question-papers', async (req, res) => {
 });
 
 
-app.get('/fetch_questions/:school_id', async (req, res) => {
+app.get('/fetch_questions', async (req, res) => {
   try {
     
-     const { school_id } = req.params;
+     const { school_id } = req.query;
  
      const questionPapers = await question_paper.find({ school_id });
      const questionIds = questionPapers.map(paper => paper.question_id);
@@ -317,9 +316,9 @@ app.get('/fetch_questions/:school_id', async (req, res) => {
  });
 
 
- app.get('/exam_details/:school_id', async (req, res) => {
+ app.get('/exam_details', async (req, res) => {
   try {
-     const { school_id } = req.params;
+     const { school_id } = req.query;
  
      const questionPapers = await question_paper.find({ school_id });
  
