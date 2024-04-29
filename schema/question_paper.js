@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const questionPaperSchema = new mongoose.Schema({
   question_id: {
-    type: String,
+    type: [String],
     required: true
   },
   spoc_id: {
