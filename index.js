@@ -216,12 +216,12 @@ app.post('/post/school_details', async (req, res) => {
 app.post('/question-papers', async (req, res) => {
   try {
     // Extract data from the request body
-    const { question_id, spoc_id, duration, class: class_ } = req.body;
+    const { question_id, school_id, duration, class: class_ } = req.body;
 
     // Create a new instance of the QuestionPaper model
     const newQuestionPaper = new question_paper({
       question_id,
-      spoc_id,
+      school_id,
       duration,
       class: class_ 
     });
@@ -229,7 +229,7 @@ app.post('/question-papers', async (req, res) => {
     await newQuestionPaper.save();
 
     
-    res.status(201).json({ message: 'Question paper created successfully', questionPaper: newQuestionPaper });
+    res.status(201).json({ message: 'Question paper created successfully', questionPaper: newQuestionPaper, school_id });
   } catch (error) {
   
     console.error('Error creating question paper:', error);
