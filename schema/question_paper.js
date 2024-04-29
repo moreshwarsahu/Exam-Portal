@@ -9,7 +9,15 @@ const questionPaperSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  test_name: {
+    type: String,
+    required: true,
+  },
   duration: {
+    type: String,
+    required: true,
+  },
+  total_marks: {
     type: String,
     required: true,
   },

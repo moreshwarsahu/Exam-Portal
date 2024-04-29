@@ -260,6 +260,24 @@ app.get('/fetch_questions/:school_id', async (req, res) => {
  });
 
 
+ app.get('/exam_details/:school_id', async (req, res) => {
+  try {
+     const { school_id } = req.params;
+ 
+     const questionPapers = await question_paper.find({ school_id });
+ 
+     const filteredQuestionPapers = questionPapers.map(paper => {
+       const { question_id, ...rest } = paper.toObject();
+       return rest;
+     });
+ 
+     res.status(200).json({ status: 'success', status_code: 200, message: 'Question papers fetched successfully', school_id, data: filteredQuestionPapers });
+  } catch (error) {
+     console.error('Error fetching question papers:', error);
+     res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
+  }
+ });
+
 app.listen(PORT, ()=>{
     console.log('port is running'+PORT)
 })
