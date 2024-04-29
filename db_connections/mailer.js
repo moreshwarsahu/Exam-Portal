@@ -51,6 +51,7 @@ async function makeMessage(recieversList) {
 // async..await is not allowed in global scope, must use a wrapper
 async function main(listOfRecievers) {
 	try {
+        console.log(listOfRecievers);
 		// send mail with defined transport object
 		let message = await makeMessage(listOfRecievers);
 		const info = await transporter.sendMail(message, (err, info) => {

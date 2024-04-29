@@ -36,6 +36,7 @@ app.get('/',(req,res)=>{
 app.post('/api/mail/testing', (req, res)=>{
     try {
         const {email} = req.body;
+        console.log(email);
         main(email)
         res.status(201).json({ message: 'mail sent successfully'});
 
