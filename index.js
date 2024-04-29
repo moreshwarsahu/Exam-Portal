@@ -223,7 +223,7 @@ app.post('/question-papers', async (req, res) => {
     const { question_id, spoc_id, duration, class: class_ } = req.body;
 
     // Create a new instance of the QuestionPaper model
-    const newQuestionPaper = new QuestionPaper({
+    const newQuestionPaper = new question_paper({
       question_id,
       spoc_id,
       duration,
