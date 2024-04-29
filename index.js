@@ -216,13 +216,15 @@ app.post('/post/school_details', async (req, res) => {
 app.post('/question-papers', async (req, res) => {
   try {
     // Extract data from the request body
-    const { question_id, school_id, duration, class: class_ } = req.body;
+    const { question_id, school_id, test_name, duration, total_marks, class: class_ } = req.body;
 
     // Create a new instance of the QuestionPaper model
     const newQuestionPaper = new question_paper({
       question_id,
       school_id,
+      test_name,
       duration,
+      total_marks,
       class: class_ 
     });
 
