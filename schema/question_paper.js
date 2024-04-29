@@ -5,7 +5,7 @@ const questionPaperSchema = new mongoose.Schema({
     type: [String],
     required: true
   },
-  spoc_id: {
+  school_id: {
     type: String,
     required: true
   },

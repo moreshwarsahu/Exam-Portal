@@ -68,25 +68,21 @@ app.post('/post/student_info', async (req, res) => {
 
   app.post('/login/student', async (req, res) => {
     try {
-      const { student_id, password } = req.body;
-  
-      // Find the student by student_id
+      const { school_id, student_id, password } = req.body;
+
       const student = await student_info.findOne({ student_id });
   
       if (!student) {
        
-        return res.status(401).json({ message: 'Invalid student_id or password' });
+        return res.status(401).json({ message: 'Invalid ID or Password' });
       }
   
-      // Compare passwords
       const passwordMatch = await bcrypt.compare(password, student.password);
       if (!passwordMatch) {
-        // If passwords don't match
-        return res.status(401).json({ message: 'Invalid student_id or password' });
+        return res.status(401).json({ message: 'Invalid ID or Password' });
       }
   
-      // If login successful
-      res.status(200).json({ student_id, message: 'Login successful' });
+      res.status(200).json({ school_id, student_id, message: 'Login successful' });
     } catch (error) {
       console.error('Error during student login:', error);
       res.status(500).json({ message: 'Internal Server Error' });
@@ -129,7 +125,7 @@ app.post('/post/school_details', async (req, res) => {
 
   app.post('/spoc_login', async (req, res) => {
     try {
-      const { spoc_id, spoc_password } = req.body;
+      const { school_id, spoc_id, spoc_password } = req.body;
   
       
       const user = await school_details.findOne({ spoc_id });
@@ -145,7 +141,7 @@ app.post('/post/school_details', async (req, res) => {
         return res.status(401).json({ message: 'Invalid spoc_id or password' });
       }
   
-      res.status(200).json({ spoc_id, message: 'Login successful' });
+      res.status(200).json({ school_id, spoc_id, message: 'Login successful' });
     } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({ message: 'Internal Server Error' });
@@ -242,12 +238,12 @@ app.post('/question-papers', async (req, res) => {
 });
 
 
-app.get('/fetch_questions/:spoc_id', async (req, res) => {
+app.get('/fetch_questions/:school_id', async (req, res) => {
   try {
     
-     const { spoc_id } = req.params;
+     const { school_id } = req.params;
  
-     const questionPapers = await question_paper.find({ spoc_id });
+     const questionPapers = await question_paper.find({ school_id });
      const questionIds = questionPapers.map(paper => paper.question_id);
  
      const allQuestionIds = [].concat(...questionIds);
@@ -256,7 +252,7 @@ app.get('/fetch_questions/:spoc_id', async (req, res) => {
        _id: { $in: allQuestionIds }
      });
  
-     res.status(200).json({ status: 'success', status_code: 200, message: 'Questions fetched successfully', data: questions });
+     res.status(200).json({ status: 'success', status_code: 200, message: 'Questions fetched successfully', data: questions, school_id });
   } catch (error) {
      console.error('Error fetching questions by SPOC ID:', error);
      res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
