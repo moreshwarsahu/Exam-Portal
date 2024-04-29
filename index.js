@@ -242,6 +242,28 @@ app.post('/question-papers', async (req, res) => {
 });
 
 
+app.get('/fetch_questions/:spoc_id', async (req, res) => {
+  try {
+    
+     const { spoc_id } = req.params;
+ 
+     const questionPapers = await question_paper.find({ spoc_id });
+     const questionIds = questionPapers.map(paper => paper.question_id);
+ 
+     const allQuestionIds = [].concat(...questionIds);
+
+     const questions = await question_bank.find({
+       _id: { $in: allQuestionIds }
+     });
+ 
+     res.status(200).json({ status: 'success', status_code: 200, message: 'Questions fetched successfully', data: questions });
+  } catch (error) {
+     console.error('Error fetching questions by SPOC ID:', error);
+     res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
+  }
+ });
+
+
 app.listen(PORT, ()=>{
     console.log('port is running'+PORT)
 })
