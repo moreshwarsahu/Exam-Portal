@@ -17,6 +17,7 @@ const admin_info = require("./schema/admin_info.js")
 const question_bank = require("./schema/question_bank.js")
 const school_details = require("./schema/school_details.js")
 const student_info = require("./schema/student_info.js")
+const question_paper=require("./schema/question_paper.js")
 
 //middlwares
 app.use(cors())
@@ -214,7 +215,32 @@ app.post('/post/school_details', async (req, res) => {
     }
   });
 
-//****************************************************************************************//
+//************************************Question Paper creation****************************************************//
+
+app.post('/question-papers', async (req, res) => {
+  try {
+    // Extract data from the request body
+    const { question_id, spoc_id, duration, class: class_ } = req.body;
+
+    // Create a new instance of the QuestionPaper model
+    const newQuestionPaper = new QuestionPaper({
+      question_id,
+      spoc_id,
+      duration,
+      class: class_ 
+    });
+
+    await newQuestionPaper.save();
+
+    
+    res.status(201).json({ message: 'Question paper created successfully', questionPaper: newQuestionPaper });
+  } catch (error) {
+  
+    console.error('Error creating question paper:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 app.listen(PORT, ()=>{
     console.log('port is running'+PORT)
