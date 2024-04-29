@@ -55,13 +55,14 @@ res.send('get your user data here')
 
 app.post('/post/student_info', async (req, res) => {
     try {
-      const { school_id, student_name, fathers_name, dob, contact_no, student_id, password } = req.body;
+      const { school_id, student_name, class: class_ , fathers_name, dob, contact_no, student_id, password } = req.body;
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newStudent = new student_info({
         school_id,
         student_name,
+        class: class_ ,
         fathers_name,
         dob,
         contact_no,
@@ -82,7 +83,7 @@ app.post('/post/student_info', async (req, res) => {
 
   app.post('/login/student', async (req, res) => {
     try {
-      const { school_id, student_id, password } = req.body;
+      const { school_id, class: class_ , student_id, password } = req.body;
 
       const student = await student_info.findOne({ student_id });
   
@@ -96,7 +97,7 @@ app.post('/post/student_info', async (req, res) => {
         return res.status(401).json({ message: 'Invalid ID or Password' });
       }
   
-      res.status(200).json({ school_id, student_id, message: 'Login successful' });
+      res.status(200).json({ school_id, student_id, class: class_ , message: 'Login successful' });
     } catch (error) {
       console.error('Error during student login:', error);
       res.status(500).json({ message: 'Internal Server Error' });
@@ -224,6 +225,23 @@ app.post('/post/school_details', async (req, res) => {
       res.status(500).json({status:'failure', status_code: 500, message: 'Internal Server Error' });
     }
   });
+
+  app.get('/question_popup/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const question = await question_bank.findById(id);
+
+        if (!question) {
+            return res.status(404).json({ status: 'failure', status_code: 404, message: 'Question not found' });
+        }
+
+        res.status(200).json({ status: 'success', status_code: 200, message: 'Question fetched successfully', data: question });
+    } catch (error) {
+        console.error('Error fetching question:', error);
+        res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
+    }
+});
 
   app.delete('/delete_question/:id', async (req, res) => {
     try {

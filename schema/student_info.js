@@ -9,6 +9,10 @@ const studentInfoSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  class:{
+    type: String,
+    required: true
+  },
   fathers_name: {
     type: String,
     required: true
