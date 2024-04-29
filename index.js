@@ -173,7 +173,7 @@ app.post('/post/school_details', async (req, res) => {
       res.status(200).json({ status:'success', status_code:200, message: 'Question added successfully', data: newQuestion });
     } catch (error) {
       console.error('Error adding question:', error);
-      res.status(500).json({ status:'failure', status_code:500, message: 'Internal Server Error' });
+      res.status(500).json({ status:'failure', status_code:500, message: 'Internal Server Error', error });
     }
   });
 
