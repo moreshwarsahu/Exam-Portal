@@ -18,7 +18,7 @@ const question_bank = require("./schema/question_bank.js")
 const school_details = require("./schema/school_details.js")
 const student_info = require("./schema/student_info.js")
 const question_paper=require("./schema/question_paper.js");
-const main = require("./db_connections/mailer.js");
+const mailer = require("./db_connections/mailer.js");
 
 //middlwares
 app.use(cors())
@@ -33,18 +33,18 @@ app.get('/',(req,res)=>{
     res.send ("port is running")
 })
 
-app.post('/api/mail/testing', (req, res)=>{
-    try {
-        const {email} = req.body;
-        console.log(email);
-        main(email)
-        res.status(201).json({ message: 'mail sent successfully'});
+// app.post('/api/mail/testing', (req, res)=>{
+//     try {
+//         const {email} = req.body;
+     
+//         mailer(email)
+//         res.status(201).json({ message: 'mail sent successfully'});
 
-    }catch (error) {
-        console.error('Error sending mail:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
-      }
-})
+//     }catch (error) {
+//         console.error('Error sending mail:', error);
+//         res.status(500).json({ message: 'Internal Server Error' });
+//       }
+// })
 
 app.get('/users',(req,res)=>{
 res.send('get your user data here')
@@ -124,7 +124,7 @@ app.post('/post/school_details', async (req, res) => {
       spoc_contact,
       email
     });
-
+    mailer(email, spoc_id, spoc_password);
     await newSchool.save();
     res.status(201).json({ message: 'School details added successfully', data: newSchool });
   } catch (error) {

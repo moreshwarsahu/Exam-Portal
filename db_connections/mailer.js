@@ -15,9 +15,8 @@ const transporter = nodemailer.createTransport({
 });
 
 
-async function makeMessage(recieversList) {
+async function makeMessage(recieversList, spoc_id, spoc_password) {
 	try {
-
 		const message = {
 
 			from: '"UpStairs" <admin@upstairs.com>', // sender address
@@ -28,9 +27,11 @@ async function makeMessage(recieversList) {
 
 			// text: This invitation is sent by ${user.userName}, // plain text body
 			//     or
-			html: `<b>This is sent by </b>
-			<p>He/she wants you to join his/her team in Technorollix 2k24's event ${event.eventName} hosted by O.P. Jindal University Raigarh, Chhattisgarh</p>
-			<h1><a href="http://technorollix.opju.ac.in">Invitation Link</a></h1>
+			html: `<b>This mail is sent by team upStairs </b>
+			<p>You Have been enrolled as SPoC in our portal. Your Login ID and Password are:</p>
+			<p>SPoC ID/ Login ID: ${spoc_id}</p>
+            <p>Password: ${spoc_password} </p>
+            <p>Do not share your login ID or Password with Anyone.</p>
 			<h3>Thank you</h3>
 			`, // html body
 
@@ -49,11 +50,11 @@ async function makeMessage(recieversList) {
 }
 
 // async..await is not allowed in global scope, must use a wrapper
-async function main(listOfRecievers) {
+async function mailer(listOfRecievers, spoc_id, spoc_password) {
 	try {
-        console.log(listOfRecievers);
+    
 		// send mail with defined transport object
-		let message = await makeMessage(listOfRecievers);
+		let message = await makeMessage(listOfRecievers, spoc_id, spoc_password);
 		const info = await transporter.sendMail(message, (err, info) => {
 			if (err) {
 				console.log(err);
@@ -68,4 +69,4 @@ async function main(listOfRecievers) {
 	}
 }
 
-module.exports = main;
+module.exports = mailer;
