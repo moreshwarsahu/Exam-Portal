@@ -232,9 +232,9 @@ app.post('/post/school_details', async (req, res) => {
     }
   });
 
-  app.get('/question_popup/:id', async (req, res) => {
+  app.get('/question_popup', async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.query;
 
         const question = await question_bank.findById(id);
 
