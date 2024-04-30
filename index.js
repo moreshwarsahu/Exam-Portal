@@ -141,6 +141,21 @@ app.post('/post/school_details', async (req, res) => {
   }
 });
 
+
+app.get('/schools', async (req, res) => {
+  try {
+    // Fetch school details from the database
+    const schools = await school_details.find({}, { spoc_password: 0, createdAt: 0, updatedAt: 0 });
+
+    res.status(200).json({ schools });
+  } catch (error) {
+    
+    console.error('Error fetching school details:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 app.get('/search/school_details', async (req, res) => {
   try {
     const { query: searchString } = req.query;
