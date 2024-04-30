@@ -348,7 +348,7 @@ app.get('/fetch_questions', async (req, res) => {
        _id: { $in: allQuestionIds }
      });
  
-     res.status(200).json({ status: 'success', status_code: 200, message: 'Questions fetched successfully', data: questions, school_id });
+     res.status(200).json({ status: 'success', status_code: 200, message: 'Questions fetched successfully', data: questions, school_id, id: questionPapers._id });
   } catch (error) {
      console.error('Error fetching questions by SPOC ID:', error);
      res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
