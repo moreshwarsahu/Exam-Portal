@@ -373,7 +373,59 @@ app.get('/fetch_questions', async (req, res) => {
      res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
   }
  });
-//*************************************************************************************************************// 
+//*********************************************Admin****************************************************************// 
+app.post('/create_admin', async (req, res) => {
+  try {
+      const { name, u_id, password, contact_no } = req.body;
+
+      const existingAdmin = await admin_info.findOne({ u_id });
+      if (existingAdmin) {
+          return res.status(400).json({ message: 'Admin user with this ID already exists' });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newAdmin = new admin_info({
+          name,
+          u_id,
+          password: hashedPassword, 
+          contact_no
+      });
+
+      await newAdmin.save();
+
+      res.status(200).json({ message: 'Admin user created successfully', admin: newAdmin });
+  } catch (error) {
+      console.error('Error creating admin user:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+app.post('/admin_login', async (req, res) => {
+  try {
+      const { u_id, password } = req.body;
+
+      const admin = await admin_info.findOne({ u_id });
+
+      if (!admin) {
+          return res.status(401).json({ message: 'Invalid admin ID or password' });
+      }
+
+      const passwordMatch = await bcrypt.compare(password, admin.password);
+
+      if (!passwordMatch) {
+          return res.status(401).json({ message: 'Invalid admin ID or password' });
+      }
+
+      res.status(200).json({ message: 'Login successful', admin: admin });
+  } catch (error) {
+      console.error('Error during admin login:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+
 app.listen(PORT, ()=>{
     console.log('port is running'+PORT)
 })
