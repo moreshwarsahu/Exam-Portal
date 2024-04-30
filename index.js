@@ -313,7 +313,7 @@ app.post('/question-papers', async (req, res) => {
   } catch (error) {
   
     console.error('Error creating question paper:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error', error});
   }
 });
 
