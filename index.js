@@ -406,7 +406,7 @@ app.post('/admin_login', async (req, res) => {
       const { u_id, password } = req.body;
 
       const admin = await admin_info.findOne({ u_id });
-      const data = {name: admin.name, id: admin.u_id, contact: admin.contact_no}
+      const data = [{name: admin.name, id: admin.u_id, contact: admin.contact_no}]
       if (!admin) {
           return res.status(401).json({ message: 'Invalid admin ID or password' });
       }
