@@ -205,7 +205,7 @@ app.get('/spoc_details', async (req, res) => {
        if (!schoolDetails) {
            return res.status(404).json({ message: 'School details not found for the given SPOC ID' });
        }
-       res.status(200).json({ status: 'success', status_code: 200, message: 'School details fetched successfully', data: schoolDetails });
+       res.status(200).json({ status: 'success', status_code: 200, message: 'School details fetched successfully', data: [schoolDetails] });
   } catch (error) {
        console.error('Error fetching school details:', error);
        res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
