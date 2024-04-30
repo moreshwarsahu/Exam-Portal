@@ -196,6 +196,37 @@ app.get('/spoc_details', async (req, res) => {
   }
  });
 
+ app.delete('/schools/delete', async (req, res) => {
+  try {
+    // Extract _id from query parameters
+    const { _id } = req.query;
+
+    // Validate if _id is provided
+    if (!_id) {
+      return res.status(400).json({ error: 'School ID (_id) is required' });
+    }
+
+    // Check if _id is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(400).json({ error: 'Invalid School ID (_id)' });
+    }
+
+    // Find and delete school details by _id
+    const deletedSchool = await school_details.findByIdAndDelete(_id);
+
+    if (!deletedSchool) {
+      return res.status(404).json({ error: 'School not found' });
+    }
+
+    // Send a success response
+    res.status(200).json({ message: 'School deleted successfully', deletedSchool });
+  } catch (error) {
+    // If an error occurs, send an error response
+    console.error('Error deleting school:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
   //******************************************spoc login**************************// 
 
 
