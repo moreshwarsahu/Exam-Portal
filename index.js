@@ -147,7 +147,7 @@ app.get('/schools', async (req, res) => {
     // Fetch school details from the database
     const schools = await school_details.find({}, { spoc_password: 0});
 
-    res.status(200).json({ schools });
+    res.status(200).json({ status: 'success', status_code: 200, message: 'School details fetched successfully', schools });
   } catch (error) {
     
     console.error('Error fetching school details:', error);
