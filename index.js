@@ -79,6 +79,21 @@ app.post('/post/student_info', async (req, res) => {
    });
 
 
+   app.get('/fetch_all_students', async (req, res) => {
+    try {
+       const students = await student_info.find({}, '-password');
+   
+       if (!students.length) {
+         return res.status(404).json({ message: 'No students found' });
+       }
+   
+       res.status(200).json({ status: 'success', status_code: 200, message: 'All student information fetched successfully', data: students });
+    } catch (error) {
+       console.error('Error fetching all student information:', error);
+       res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal server error' });
+    }
+   });
+
   //************************************student login *************************//
 
   app.post('/login/student', async (req, res) => {
