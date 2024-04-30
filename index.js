@@ -357,39 +357,21 @@ app.get('/fetch_questions', async (req, res) => {
 
  app.get('/fetch_questions_by_id', async (req, res) => {
   try {
-     
-     // Extract the ObjectID of the question paper from the query parameters
-     const { questionPaperId } = req.query;
+    
+     const { _id } = req.query;
  
-     // Validate the ObjectID format
-     if (!mongoose.Types.ObjectId.isValid(questionPaperId)) {
-         return res.status(400).json({ status: 'failure', status_code: 400, message: 'Invalid question paper ID' });
-     }
+     const questionPapers = await question_paper.findById({ _id });
+     const questionIds = questionPapers.map(paper => paper.question_id);
  
-     // Find the question paper by its ObjectID
-     const questionPaper = await question_paper.findById(questionPaperId);
- 
-     if (!questionPaper) {
-         return res.status(404).json({ status: 'failure', status_code: 404, message: 'Question paper not found' });
-     }
- 
-     // Extract the question IDs from the question paper
-     const questionIds = questionPaper.question_id;
- 
-     // Find the questions by their IDs
+     const allQuestionIds = [].concat(...questionIds);
+
      const questions = await question_bank.find({
-       _id: { $in: questionIds }
+       _id: { $in: allQuestionIds }
      });
  
-     res.status(200).json({
-       status: 'success',
-       status_code: 200,
-       message: 'Questions fetched successfully',
-       data: questions,
-       questionPaperId // Include the ObjectID of the question paper in the response
-     });
+     res.status(200).json({ status: 'success', status_code: 200, message: 'Questions fetched successfully', data: questions, _id });
   } catch (error) {
-     console.error('Error fetching questions by question paper ID:', error);
+     console.error('Error fetching questions by SPOC ID:', error);
      res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
   }
  });
