@@ -129,7 +129,6 @@ app.post('/post/school_details', async (req, res) => {
       spoc_name,
       spoc_id,
       spoc_password: hashedPassword, 
-      spoc_password,
       spoc_contact,
       email
     });
