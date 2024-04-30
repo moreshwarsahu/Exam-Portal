@@ -360,7 +360,7 @@ app.get('/fetch_questions', async (req, res) => {
     
      const { _id } = req.query;
  
-     const questionPapers = await question_paper.findById({ _id });
+     const questionPapers = await question_paper.find({ _id });
      const questionIds = questionPapers.map(paper => paper.question_id);
  
      const allQuestionIds = [].concat(...questionIds);
