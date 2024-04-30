@@ -29,28 +29,6 @@ app.use(express.json());
 
 //routing
 
-app.get('/',(req,res)=>{
-    res.send ("port is running")
-})
-
-// app.post('/api/mail/testing', (req, res)=>{
-//     try {
-//         const {email} = req.body;
-     
-//         mailer(email)
-//         res.status(201).json({ message: 'mail sent successfully'});
-
-//     }catch (error) {
-//         console.error('Error sending mail:', error);
-//         res.status(500).json({ message: 'Internal Server Error' });
-//       }
-// })
-
-app.get('/users',(req,res)=>{
-res.send('get your user data here')
-
-})
-
 //****************************student details****************************// 
 
 app.post('/post/student_info', async (req, res) => {
@@ -78,6 +56,28 @@ app.post('/post/student_info', async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
+
+  app.get('/fetch_student_info', async (req, res) => {
+    try {
+       const { school_id } = req.query;
+   
+       if (!school_id) {
+         return res.status(400).json({ message: 'School ID is required' });
+       }
+
+       const students = await student_info.find({ school_id }, '-password');
+   
+       if (!students.length) {
+         return res.status(404).json({ message: 'No students found for the given school ID' });
+       }
+   
+       res.status(200).json({ status: 'success', status_code: 200, message: 'Student information fetched successfully', data: students });
+    } catch (error) {
+       console.error('Error fetching student information:', error);
+       res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal server error' });
+    }
+   });
+
 
   //************************************student login *************************//
 
