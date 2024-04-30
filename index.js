@@ -151,7 +151,7 @@ app.get('/schools', async (req, res) => {
   } catch (error) {
     
     console.error('Error fetching school details:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ status: 'failure', status_code: 500, error: 'Internal server error' });
   }
 });
 
