@@ -134,7 +134,7 @@ app.post('/post/school_details', async (req, res) => {
     
     await newSchool.save();
     mailer(email, spoc_id, spoc_password);
-    res.status(201).json({ message: 'School details added successfully', data: newSchool });
+    res.status(200).json({ message: 'School details added successfully', data: newSchool });
   } catch (error) {
     console.error('Error adding school details:', error);
     res.status(500).json({ message: 'Internal Server Error', error });
