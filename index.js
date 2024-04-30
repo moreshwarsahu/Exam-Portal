@@ -417,7 +417,7 @@ app.post('/admin_login', async (req, res) => {
           return res.status(401).json({ message: 'Invalid admin ID or password' });
       }
 
-      res.status(200).json({ message: 'Login successful', admin: admin });
+      res.status(200).json({ message: 'Login successful', name: admin.name, id: admin.u_id, contact: admin.contact_no });
   } catch (error) {
       console.error('Error during admin login:', error);
       res.status(500).json({ message: 'Internal Server Error' });
