@@ -394,7 +394,6 @@ app.get('/fetch_questions', async (req, res) => {
   }
  });
 
- 
 
  app.get('/exam_details', async (req, res) => {
   try {
