@@ -118,7 +118,8 @@ app.post('/post/student_info', async (req, res) => {
 app.post('/post/school_details', async (req, res) => {
   try {
     const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
-
+    console.log(req.body);
+   
     const hashedPassword = await bcrypt.hash(spoc_password, 10); 
 
     const newSchool = new school_details({
