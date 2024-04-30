@@ -94,6 +94,34 @@ app.post('/post/student_info', async (req, res) => {
     }
    });
 
+   app.get('/search/students', async (req, res) => {
+    try {
+       const { query: searchString } = req.query;
+   
+       if (!searchString) {
+         return res.status(400).json({ message: 'Search query is required' });
+       }
+ 
+       const regexPattern = new RegExp(searchString, 'i');
+   
+       const students = await student_info.find({
+         $or: [
+           { student_name: regexPattern },
+           { school_id: regexPattern }
+         ]
+       }, '-password'); 
+   
+       if (!students.length) {
+         return res.status(404).json({ message: 'No students found matching the search criteria' });
+       }
+   
+       res.status(200).json({ status: 'success', status_code: 200, message: 'Search successful', data: students });
+    } catch (error) {
+       console.error('Error during student search:', error);
+       res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
+    }
+   });
+
   //************************************student login *************************//
 
   app.post('/login/student', async (req, res) => {
