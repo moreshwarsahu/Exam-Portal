@@ -165,6 +165,22 @@ app.get('/search/school_details', async (req, res) => {
   }
 });
 
+app.get('/spoc_details', async (req, res) => {
+  try {
+       const { spoc_id } = req.query;
+ 
+       const schoolDetails = await school_details.findOne({ spoc_id }, '-spoc_password -createdAt -updatedAt');
+ 
+       if (!schoolDetails) {
+           return res.status(404).json({ message: 'School details not found for the given SPOC ID' });
+       }
+       res.status(200).json({ status: 'success', status_code: 200, message: 'School details fetched successfully', data: schoolDetails });
+  } catch (error) {
+       console.error('Error fetching school details:', error);
+       res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
+  }
+ });
+
   //******************************************spoc login**************************// 
 
 
