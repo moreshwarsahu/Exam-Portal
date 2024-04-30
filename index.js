@@ -309,11 +309,11 @@ app.post('/question-papers', async (req, res) => {
     await newQuestionPaper.save();
 
     
-    res.status(201).json({ message: 'Question paper created successfully', questionPaper: newQuestionPaper, school_id });
+    res.status(200).json({ message: 'Question paper created successfully', questionPaper: newQuestionPaper, school_id });
   } catch (error) {
   
     console.error('Error creating question paper:', error);
-    res.status(500).json({ error: 'Internal server error', error});
+    res.status(500).json({ error: 'Internal server error'});
   }
 });
 
