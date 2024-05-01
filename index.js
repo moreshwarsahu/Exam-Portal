@@ -272,7 +272,7 @@ app.get('/spoc_details', async (req, res) => {
 
   app.post('/spoc_login', async (req, res) => {
     try {
-      const { school_id, spoc_id, spoc_password } = req.body;
+      const { spoc_id, spoc_password } = req.body;
   
       
       const user = await school_details.findOne({ spoc_id });
@@ -288,7 +288,7 @@ app.get('/spoc_details', async (req, res) => {
         return res.status(401).json({ message: 'Invalid spoc_id or password' });
       }
   
-      res.status(200).json({ school_id, spoc_id, message: 'Login successful' });
+      res.status(200).json({ school_id: user.school_id, spoc_id, message: 'Login successful' });
     } catch (error) {
       console.error('Error during login:', error);
       res.status(500).json({ message: 'Internal Server Error' });
