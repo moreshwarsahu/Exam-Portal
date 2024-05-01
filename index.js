@@ -50,10 +50,10 @@ app.post('/post/student_info', async (req, res) => {
 
       await newStudent.save();
   
-      res.status(201).json({ message: 'Student added successfully', student: newStudent });
+      res.status(200).json({ status: 'success', status_code: 200, message: 'Student added successfully', student: newStudent });
     } catch (error) {
       console.error('Error adding student:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).json({status: 'failure', status_code: 500, message: 'Internal Server Error' });
     }
   });
 
@@ -161,7 +161,7 @@ app.post('/post/student_info', async (req, res) => {
 app.post('/post/school_details', async (req, res) => {
   try {
     const { school_id, name, address, spoc_name, spoc_id, spoc_password, spoc_contact, email } = req.body;
-    console.log(req.body);
+   
    
     const hashedPassword = await bcrypt.hash(spoc_password, 10); 
 
