@@ -427,6 +427,7 @@ app.get('/fetch_questions', async (req, res) => {
  
      const questionPapers = await question_paper.find({ school_id });
      const questionIds = questionPapers.map(paper => paper.question_id);
+     const duration = questionPapers.map(paper => paper.duration);
  
      const allQuestionIds = [].concat(...questionIds);
 
@@ -434,7 +435,7 @@ app.get('/fetch_questions', async (req, res) => {
        _id: { $in: allQuestionIds }
      });
  
-     res.status(200).json({ status: 'success', status_code: 200, message: 'Questions fetched successfully', data: questions, school_id });
+     res.status(200).json({ status: 'success', status_code: 200, message: 'Questions fetched successfully', data: questions, school_id, duration });
   } catch (error) {
      console.error('Error fetching questions by SPOC ID:', error);
      res.status(500).json({ status: 'failure', status_code: 500, message: 'Internal Server Error' });
