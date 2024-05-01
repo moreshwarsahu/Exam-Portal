@@ -144,7 +144,8 @@ app.post('/post/student_info', async (req, res) => {
       res.status(200).json({
         school_id: student.school_id, 
         student_id: student.student_id, 
-        student_name: student.student_name, 
+        class: student.class, 
+        student_name: student.student_name,
         message: 'Login successful'
     });
     } catch (error) {
